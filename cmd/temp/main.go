@@ -1,10 +1,15 @@
 package main
 
+//Run testing using go test ./cmd/temp -v -run M1 (M2)
+
 import (
 	"errors"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/imayavgi/golang-temperature-converter-cli/internal/pkg/conv"
+	"github.com/imayavgi/golang-temperature-converter-cli/internal/pkg/util"
 )
 
 var originUnit string
@@ -20,7 +25,7 @@ var errReadingInput = errors.New("Error reading input")
 func main() {
 
 	if len(os.Args) != 2 {
-		printError(errInvalidArguments)
+		util.PrintError(errInvalidArguments)
 	}
 
 	originUnit = strings.ToUpper(os.Args[1])
@@ -30,19 +35,19 @@ func main() {
 		_, err = fmt.Scanln(&originValue)
 
 		if err != nil {
-			printError(errReadingInput)
+			util.PrintError(errReadingInput)
 		}
 
 		if originUnit == "C" {
-			convertToFahrenheit(originValue)
+			conv.ConvertToFahrenheit(originValue)
 		} else {
-			convertToCelsius(originValue)
+			conv.ConvertToCelsius(originValue)
 		}
 
 		fmt.Print("Would you like to convert another temperature ? (y/n) ")
 		_, err = fmt.Scanln(&shouldConvertAgain)
 		if err != nil {
-			printError(errReadingInput)
+			util.PrintError(errReadingInput)
 		}
 
 		if strings.ToUpper(strings.TrimSpace(shouldConvertAgain)) != "Y" {
@@ -50,19 +55,4 @@ func main() {
 			break
 		}
 	}
-}
-
-func printError(err error) {
-	fmt.Fprintf(os.Stderr, "error: %v\n", err)
-	os.Exit(1)
-}
-
-func convertToCelsius(value float64) {
-	convertedValue := (value - 32) * 5 / 9
-	fmt.Printf("%v F = %.0f C\n", value, convertedValue)
-}
-
-func convertToFahrenheit(value float64) {
-	convertedValue := (value * 9 / 5) + 32
-	fmt.Printf("%v C = %.0f F\n", value, convertedValue)
 }
