@@ -8,8 +8,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/imayavgi/golang-temperature-converter-cli/internal/pkg/conv"
-	"github.com/imayavgi/golang-temperature-converter-cli/internal/pkg/util"
+	"github.com/imayavgi/go-temp-conv-cli/internal/pkg/conv"
+	"github.com/imayavgi/go-temp-conv-cli/internal/pkg/util"
 )
 
 var originUnit string
